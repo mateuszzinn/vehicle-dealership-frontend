@@ -52,21 +52,21 @@ export const VehiclesListPage = () => {
             <tbody>
               {vehicles.map((vehicle) => (
                 <tr key={vehicle.id} className="border-b border-slate-100">
-                  <td className="py-2">{vehicle.brand}</td>
-                  <td>{vehicle.model}</td>
-                  <td>{vehicle.fuelType}</td>
-                  <td>{vehicle.color}</td>
-                  <td>{formatCurrency(vehicle.value)}</td>
-                  <td>{vehicle.dealerCorporateName ?? '-'}</td>
-                  <td>
-                    <div className="flex justify-end gap-2">
-                      <Button variant="secondary" onClick={() => goToDetail(vehicle.id)}>
+                  <td className="py-4 align-middle">{vehicle.brand}</td>
+                  <td className="py-4 align-middle">{vehicle.model}</td>
+                  <td className="py-4 align-middle">{vehicle.fuelType}</td>
+                  <td className="py-4 align-middle">{vehicle.color}</td>
+                  <td className="py-4 align-middle">{formatCurrency(vehicle.value)}</td>
+                  <td className="py-4 align-middle">{vehicle.dealerCorporateName ?? '-'}</td>
+                  <td className="py-4 align-middle">
+                    <div className="flex flex-wrap justify-end gap-3">
+                      <Button className="shrink-0 whitespace-nowrap" variant="secondary" onClick={() => goToDetail(vehicle.id)}>
                         Ver
                       </Button>
-                      <Button variant="secondary" onClick={() => goToEdit(vehicle.id)}>
+                      <Button className="shrink-0 whitespace-nowrap" variant="secondary" onClick={() => goToEdit(vehicle.id)}>
                         Editar
                       </Button>
-                      <Button variant="danger" onClick={() => openDeleteModal(vehicle.id)}>
+                      <Button className="shrink-0 whitespace-nowrap" variant="danger" onClick={() => openDeleteModal(vehicle.id)}>
                         Excluir
                       </Button>
                     </div>
