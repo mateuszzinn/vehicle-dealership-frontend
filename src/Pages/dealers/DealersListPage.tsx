@@ -42,19 +42,19 @@ export const DealersListPage = () => {
             <tbody>
               {dealers.map((dealer) => (
                 <tr key={dealer.id} className="border-b border-slate-100">
-                  <td className="py-2">{dealer.businessName}</td>
-                  <td>{dealer.cnpj}</td>
-                  <td>{dealer.city ?? '-'}</td>
-                  <td>{dealer.state ?? '-'}</td>
-                  <td>
-                    <div className="flex justify-end gap-2">
-                      <Button variant="secondary" onClick={() => goToDetail(dealer.id)}>
+                  <td className="py-4 align-middle">{dealer.businessName}</td>
+                  <td className="py-4 align-middle">{dealer.cnpj}</td>
+                  <td className="py-4 align-middle">{dealer.city ?? '-'}</td>
+                  <td className="py-4 align-middle">{dealer.state ?? '-'}</td>
+                  <td className="py-4 align-middle">
+                    <div className="flex flex-wrap justify-end gap-3">
+                      <Button className="shrink-0 whitespace-nowrap" variant="secondary" onClick={() => goToDetail(dealer.id)}>
                         Ver
                       </Button>
-                      <Button variant="secondary" onClick={() => goToEdit(dealer.id)}>
+                      <Button className="shrink-0 whitespace-nowrap" variant="secondary" onClick={() => goToEdit(dealer.id)}>
                         Editar
                       </Button>
-                      <Button variant="danger" onClick={() => openDeleteModal(dealer.id)}>
+                      <Button className="shrink-0 whitespace-nowrap" variant="danger" onClick={() => openDeleteModal(dealer.id)}>
                         Excluir
                       </Button>
                     </div>
