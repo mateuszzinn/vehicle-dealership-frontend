@@ -7,9 +7,21 @@ interface VehicleApiResponse {
   model: string
   fuelType: Vehicle['fuelType']
   color: string
+  price?: number
   dealerCorporateName?: string
   year?: number
   chassis?: string
+}
+
+interface VehicleApiRequest {
+  brand: string
+  model: string
+  fuelType: Vehicle['fuelType']
+  color: string
+  price?: number
+  year?: number
+  chassis?: string
+  dealerId?: number | null
 }
 
 const hasStatus = (error: unknown, status: number) =>
@@ -21,9 +33,21 @@ const toVehicle = (vehicle: VehicleApiResponse): Vehicle => ({
   model: vehicle.model,
   fuelType: vehicle.fuelType,
   color: vehicle.color,
+  value: vehicle.price,
   dealerCorporateName: vehicle.dealerCorporateName,
   year: vehicle.year,
   chassis: vehicle.chassis,
+})
+
+const toVehicleRequest = (payload: VehiclePayload): VehicleApiRequest => ({
+  brand: payload.brand,
+  model: payload.model,
+  fuelType: payload.fuelType,
+  color: payload.color,
+  price: payload.value,
+  year: payload.year,
+  chassis: payload.chassis,
+  dealerId: payload.dealerId,
 })
 
 const normalizeVehiclesResponse = (payload: unknown): Vehicle[] => {
@@ -89,14 +113,14 @@ export const vehiclesService = {
   async create(payload: VehiclePayload) {
     const response = await apiRequest<Vehicle | { data: Vehicle }>('/vehicles', {
       method: 'POST',
-      body: JSON.stringify(payload),
+      body: JSON.stringify(toVehicleRequest(payload)),
     })
     return 'data' in response ? response.data : response
   },
   async update(id: number, payload: VehiclePayload) {
     const response = await apiRequest<Vehicle | { data: Vehicle }>(`/vehicles/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(payload),
+      body: JSON.stringify(toVehicleRequest(payload)),
     })
     return 'data' in response ? response.data : response
   },
