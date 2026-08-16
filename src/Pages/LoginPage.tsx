@@ -13,7 +13,6 @@ export const LoginPage = () => {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-sky-50 via-white to-amber-50 p-4">
       <form onSubmit={onSubmit} className="w-full max-w-md space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div>
-          <p className="text-sm text-slate-500">Login local sem seguranca</p>
           <h1 className="text-2xl font-bold text-slate-900">Identificacao do usuario</h1>
         </div>
 
