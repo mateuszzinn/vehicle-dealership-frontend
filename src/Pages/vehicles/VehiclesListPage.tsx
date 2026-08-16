@@ -18,6 +18,14 @@ export const VehiclesListPage = () => {
     isDeleteModalOpen,
   } = useVehiclesListPage()
 
+  const formatCurrency = (value?: number) =>
+    value == null
+      ? '-'
+      : new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }).format(value)
+
   return (
     <Card
       title="Veiculos"
@@ -36,6 +44,7 @@ export const VehiclesListPage = () => {
                 <th>Modelo</th>
                 <th>Combustivel</th>
                 <th>Cor</th>
+                <th>Preco</th>
                 <th>Concessionaria</th>
                 <th className="text-right">Acoes</th>
               </tr>
@@ -47,6 +56,7 @@ export const VehiclesListPage = () => {
                   <td>{vehicle.model}</td>
                   <td>{vehicle.fuelType}</td>
                   <td>{vehicle.color}</td>
+                  <td>{formatCurrency(vehicle.value)}</td>
                   <td>{vehicle.dealerCorporateName ?? '-'}</td>
                   <td>
                     <div className="flex justify-end gap-2">
