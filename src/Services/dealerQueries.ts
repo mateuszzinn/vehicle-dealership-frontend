@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { dealersService } from './dealers'
-import type { DealerPayload } from '../Utils/domain'
+import type { DealerCreatePayload, DealerUpdatePayload } from '../Utils/domain'
 
 const QUERY_KEYS = {
   dealers: ['dealers'] as const,
@@ -20,7 +20,7 @@ export const useDealerQuery = (id: number) =>
 export const useCreateDealerMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (payload: DealerPayload) => dealersService.create(payload),
+    mutationFn: (payload: DealerCreatePayload) => dealersService.create(payload),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.dealers })
     },
@@ -30,7 +30,7 @@ export const useCreateDealerMutation = () => {
 export const useUpdateDealerMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, payload }: { id: number; payload: DealerPayload }) =>
+    mutationFn: ({ id, payload }: { id: number; payload: DealerUpdatePayload }) =>
       dealersService.update(id, payload),
     onSuccess: (_, vars) => {
       void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.dealers })

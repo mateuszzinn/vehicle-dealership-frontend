@@ -4,6 +4,29 @@ interface ApiError extends Error {
   status?: number
 }
 
+const extractErrorMessage = (payload: unknown): string | null => {
+  if (!payload || typeof payload !== 'object') {
+    return null
+  }
+
+  const response = payload as Record<string, unknown>
+
+  if (typeof response.message === 'string' && response.message.trim()) {
+    return response.message
+  }
+
+  if (response.messages && typeof response.messages === 'object' && !Array.isArray(response.messages)) {
+    const messages = response.messages as Record<string, unknown>
+    const firstMessage = Object.values(messages).find((value) => typeof value === 'string' && value.trim())
+
+    if (typeof firstMessage === 'string') {
+      return firstMessage
+    }
+  }
+
+  return null
+}
+
 const toError = (status: number, message: string): ApiError => {
   const error = new Error(message) as ApiError
   error.status = status
@@ -30,10 +53,7 @@ export const apiRequest = async <T>(path: string, init?: RequestInit): Promise<T
   const data = raw ? (JSON.parse(raw) as unknown) : null
 
   if (!response.ok) {
-    const message =
-      typeof data === 'object' && data && 'message' in data
-        ? String((data as { message?: string }).message)
-        : 'Nao foi possivel concluir a requisicao'
+    const message = extractErrorMessage(data) ?? 'Nao foi possivel concluir a requisicao'
 
     throw toError(response.status, message)
   }

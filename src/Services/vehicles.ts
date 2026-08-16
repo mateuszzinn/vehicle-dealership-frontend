@@ -60,12 +60,7 @@ export const vehiclesService = {
   async list() {
     try {
       const response = await apiRequest<unknown>('/vehicles')
-      const normalized = normalizeVehiclesResponse(response)
-      if (normalized.length > 0) return normalized
-
-      // Compatibility fallback for older backend route naming.
-      const fallbackResponse = await apiRequest<unknown>('/vehicle')
-      return normalizeVehiclesResponse(fallbackResponse)
+      return normalizeVehiclesResponse(response)
     } catch (error) {
       if (!hasStatus(error, 404)) throw error
 
@@ -74,13 +69,8 @@ export const vehiclesService = {
     }
   },
   async byDealer(dealerId: number) {
-    const response = await apiRequest<unknown>(`/vehicles?dealerId=${dealerId}`)
-    const list = normalizeListResponse<Vehicle>(response)
-    if (list.length > 0) return list
-
-    // Fallback when backend does not support dealerId filter.
-    const all = await this.list()
-    return all.filter((vehicle) => vehicle.dealerId === dealerId)
+    const response = await apiRequest<unknown>(`/vehicles/dealer/${dealerId}`)
+    return normalizeVehiclesResponse(response)
   },
   async getById(id: number) {
     const response = await apiRequest<VehicleApiResponse | { data: VehicleApiResponse }>(`/vehicles/${id}`)

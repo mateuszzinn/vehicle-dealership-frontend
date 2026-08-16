@@ -33,25 +33,27 @@ export const DealerFormPage = () => {
             onChange={(event) => handlers.onCnpjChange(event.target.value)}
           />
 
-          <div className="flex items-end gap-2">
-            <InputField
-              label="CEP"
-              placeholder="00000-000"
-              error={errors.zipCode?.message}
-              {...register('zipCode')}
-              onChange={(event) => handlers.onZipCodeChange(event.target.value)}
-            />
-            <Button type="button" variant="secondary" onClick={fillAddressByZipCode}>
-              Buscar
-            </Button>
-          </div>
+          {!isEdit ? (
+            <>
+              <div className="flex items-end gap-2">
+                <InputField
+                  label="CEP"
+                  placeholder="00000-000"
+                  error={errors.zipCode?.message}
+                  {...register('zipCode')}
+                  onChange={(event) => handlers.onZipCodeChange(event.target.value)}
+                />
+                <Button type="button" variant="secondary" onClick={fillAddressByZipCode}>
+                  Buscar
+                </Button>
+              </div>
 
-          <InputField label="Telefone" error={errors.phone?.message} {...register('phone')} onChange={(event) => handlers.onPhoneChange(event.target.value)} />
-
-          <InputField label="Endereco" error={errors.address?.message} {...register('address')} />
-          <InputField label="Bairro" error={errors.neighborhood?.message} {...register('neighborhood')} />
-          <InputField label="Cidade" error={errors.city?.message} {...register('city')} />
-          <InputField label="UF" error={errors.state?.message} {...register('state')} />
+              <InputField label="Endereco" error={errors.address?.message} {...register('address')} />
+              <InputField label="Bairro" error={errors.neighborhood?.message} {...register('neighborhood')} />
+              <InputField label="Cidade" error={errors.city?.message} {...register('city')} />
+              <InputField label="UF" error={errors.state?.message} {...register('state')} />
+            </>
+          ) : null}
 
           <div className="sm:col-span-2 flex gap-3">
             <Button type="submit" disabled={isSaving}>

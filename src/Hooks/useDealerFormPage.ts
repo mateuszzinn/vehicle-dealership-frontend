@@ -3,10 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useSnackbar } from 'notistack'
-import { dealerSchema, type DealerFormData } from '../Schemas/dealerSchema'
+import {
+  dealerCreateSchema,
+  dealerUpdateSchema,
+  type DealerCreateFormData,
+} from '../Schemas/dealerSchema'
 import { useCreateDealerMutation, useDealerQuery, useUpdateDealerMutation } from '../Services/dealerQueries'
 import { viaCepService } from '../Services/viacep'
-import { maskCnpj, maskPhone, maskZipCode } from '../Utils/masks'
+import { maskCnpj, maskZipCode } from '../Utils/masks'
 
 export const useDealerFormPage = () => {
   const navigate = useNavigate()
@@ -19,36 +23,49 @@ export const useDealerFormPage = () => {
   const createMutation = useCreateDealerMutation()
   const updateMutation = useUpdateDealerMutation()
 
-  const form = useForm<DealerFormData>({
-    resolver: yupResolver(dealerSchema),
-    values: {
-      businessName: dealerQuery.data?.businessName ?? '',
-      cnpj: dealerQuery.data?.cnpj ?? '',
-      zipCode: dealerQuery.data?.zipCode ?? '',
-      address: dealerQuery.data?.address ?? '',
-      neighborhood: dealerQuery.data?.neighborhood ?? '',
-      city: dealerQuery.data?.city ?? '',
-      state: dealerQuery.data?.state ?? '',
-      phone: dealerQuery.data?.phone ?? '',
-    },
+  const formValues: DealerCreateFormData = {
+    businessName: dealerQuery.data?.businessName ?? '',
+    cnpj: dealerQuery.data?.cnpj ?? '',
+    zipCode: dealerQuery.data?.zipCode ?? '',
+    address: dealerQuery.data?.address ?? '',
+    neighborhood: dealerQuery.data?.neighborhood ?? '',
+    city: dealerQuery.data?.city ?? '',
+    state: dealerQuery.data?.state ?? '',
+  }
+
+  const form = useForm<DealerCreateFormData>({
+    resolver: yupResolver(isEdit ? dealerUpdateSchema : dealerCreateSchema) as never,
+    values: formValues,
   })
 
   const onSubmit = form.handleSubmit(async (values) => {
     try {
       if (isEdit) {
-        await updateMutation.mutateAsync({ id, payload: values })
+        await updateMutation.mutateAsync({
+          id,
+          payload: {
+            businessName: values.businessName,
+            cnpj: values.cnpj,
+          },
+        })
         enqueueSnackbar('Concessionaria atualizada com sucesso', { variant: 'success' })
       } else {
         await createMutation.mutateAsync(values)
         enqueueSnackbar('Concessionaria cadastrada com sucesso', { variant: 'success' })
       }
       navigate('/dealers')
-    } catch {
-      enqueueSnackbar('Nao foi possivel salvar a concessionaria', { variant: 'error' })
+    } catch (error) {
+      enqueueSnackbar(error instanceof Error ? error.message : 'Nao foi possivel salvar a concessionaria', {
+        variant: 'error',
+      })
     }
   })
 
   const fillAddressByZipCode = async () => {
+    if (isEdit) {
+      return
+    }
+
     const zipCode = form.getValues('zipCode')
     try {
       const data = await viaCepService.getByZipCode(zipCode)
@@ -67,8 +84,6 @@ export const useDealerFormPage = () => {
       onCnpjChange: (value: string) => form.setValue('cnpj', maskCnpj(value), { shouldValidate: true }),
       onZipCodeChange: (value: string) =>
         form.setValue('zipCode', maskZipCode(value), { shouldValidate: true }),
-      onPhoneChange: (value: string) =>
-        form.setValue('phone', maskPhone(value), { shouldValidate: true }),
     }),
     [form],
   )

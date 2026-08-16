@@ -49,7 +49,7 @@ export interface VehiclePayload {
   dealerId?: number | null
 }
 
-export interface DealerPayload {
+export interface DealerCreatePayload {
   businessName: string
   cnpj: string
   zipCode: string
@@ -57,5 +57,11 @@ export interface DealerPayload {
   neighborhood?: string
   city?: string
   state?: string
-  phone?: string
 }
+
+export interface DealerUpdatePayload {
+  businessName: string
+  cnpj: string
+}
+
+export type DealerPayload = DealerCreatePayload

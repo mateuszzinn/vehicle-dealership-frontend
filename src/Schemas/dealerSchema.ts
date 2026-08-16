@@ -1,7 +1,7 @@
 import * as yup from 'yup'
-import { isValidCnpj, isValidZipCode, isValidPhone } from '../Utils/validators'
+import { isValidCnpj, isValidZipCode } from '../Utils/validators'
 
-export const dealerSchema = yup.object({
+export const dealerCreateSchema = yup.object({
   businessName: yup.string().required('Razao social e obrigatoria'),
   cnpj: yup
     .string()
@@ -15,10 +15,15 @@ export const dealerSchema = yup.object({
   neighborhood: yup.string().optional(),
   city: yup.string().optional(),
   state: yup.string().optional().max(2, 'UF deve ter 2 caracteres'),
-  phone: yup
-    .string()
-    .required('Telefone e obrigatorio')
-    .test('phone', 'Telefone invalido', (value) => isValidPhone(value ?? '')),
 })
 
-export type DealerFormData = yup.InferType<typeof dealerSchema>
+export const dealerUpdateSchema = yup.object({
+  businessName: yup.string().required('Razao social e obrigatoria'),
+  cnpj: yup
+    .string()
+    .required('CNPJ e obrigatorio')
+    .test('cnpj', 'CNPJ invalido', (value) => isValidCnpj(value ?? '')),
+})
+
+export type DealerCreateFormData = yup.InferType<typeof dealerCreateSchema>
+export type DealerUpdateFormData = yup.InferType<typeof dealerUpdateSchema>
