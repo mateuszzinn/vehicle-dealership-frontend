@@ -28,7 +28,6 @@ export const useVehicleFormPage = () => {
       model: vehicleQuery.data?.model ?? '',
       fuelType: vehicleQuery.data?.fuelType ?? 'GASOLINA',
       color: vehicleQuery.data?.color ?? '',
-      externalColor: vehicleQuery.data?.externalColor ?? '',
       year: vehicleQuery.data?.year,
       chassis: vehicleQuery.data?.chassis ?? '',
       value: vehicleQuery.data?.value,

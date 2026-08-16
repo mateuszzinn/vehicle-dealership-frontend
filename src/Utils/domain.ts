@@ -1,10 +1,10 @@
 export type FuelType =
-  | 'GASOLINA'
-  | 'ETANOL'
+  | 'GASOLINE'
+  | 'ETHANOL'
   | 'FLEX'
   | 'DIESEL'
-  | 'ELETRICO'
-  | 'HIBRIDO'
+  | 'ELECTRIC'
+  | 'HYBRID'
 
 export interface UserProfile {
   id: string
@@ -19,7 +19,7 @@ export interface Vehicle {
   model: string
   fuelType: FuelType
   color: string
-  externalColor?: string
+  dealerCorporateName?: string
   year?: number
   chassis?: string
   value?: number
@@ -43,7 +43,6 @@ export interface VehiclePayload {
   model: string
   fuelType: FuelType
   color: string
-  externalColor?: string
   year?: number
   chassis?: string
   value?: number

@@ -18,10 +18,10 @@ export const MODAL_IDS = {
 } as const
 
 export const FUEL_OPTIONS: FuelType[] = [
-  'GASOLINA',
-  'ETANOL',
+  'GASOLINE',
+  'ETHANOL',
   'FLEX',
   'DIESEL',
-  'ELETRICO',
-  'HIBRIDO',
+  'ELECTRIC',
+  'HYBRID',
 ]

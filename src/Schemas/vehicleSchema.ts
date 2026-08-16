@@ -9,7 +9,6 @@ export const vehicleSchema = yup.object({
     .oneOf(FUEL_OPTIONS, 'Combustivel invalido')
     .required('Combustivel e obrigatorio'),
   color: yup.string().required('Cor e obrigatoria'),
-  externalColor: yup.string().optional(),
   year: yup
     .number()
     .transform((value, originalValue) => (originalValue === '' ? undefined : value))

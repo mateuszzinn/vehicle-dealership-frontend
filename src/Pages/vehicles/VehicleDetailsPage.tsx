@@ -17,7 +17,7 @@ export const VehicleDetailsPage = () => {
           <p><strong>Modelo:</strong> {vehicle.model}</p>
           <p><strong>Combustivel:</strong> {vehicle.fuelType}</p>
           <p><strong>Cor:</strong> {vehicle.color}</p>
-          <p><strong>Concessionaria:</strong> {vehicle.dealerId ?? '-'}</p>
+          <p><strong>Concessionaria:</strong> {vehicle.dealerCorporateName ?? '-'}</p>
           <div className="mt-3 flex gap-3">
             <Button onClick={goToEdit}>Editar</Button>
             <Button variant="secondary" onClick={goBack}>Voltar</Button>

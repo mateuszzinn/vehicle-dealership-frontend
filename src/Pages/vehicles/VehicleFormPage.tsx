@@ -31,11 +31,6 @@ export const VehicleFormPage = () => {
           />
 
           <InputField label="Cor" error={errors.color?.message} {...register('color')} />
-          <InputField
-            label="Cor externa"
-            error={errors.externalColor?.message}
-            {...register('externalColor')}
-          />
           <InputField label="Ano" type="number" error={errors.year?.message} {...register('year')} />
           <InputField label="Chassi" error={errors.chassis?.message} {...register('chassis')} />
           <InputField label="Valor" type="number" step="0.01" error={errors.value?.message} {...register('value')} />

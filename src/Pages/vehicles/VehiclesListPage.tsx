@@ -47,7 +47,7 @@ export const VehiclesListPage = () => {
                   <td>{vehicle.model}</td>
                   <td>{vehicle.fuelType}</td>
                   <td>{vehicle.color}</td>
-                  <td>{vehicle.dealerId ?? '-'}</td>
+                  <td>{vehicle.dealerCorporateName ?? '-'}</td>
                   <td>
                     <div className="flex justify-end gap-2">
                       <Button variant="secondary" onClick={() => goToDetail(vehicle.id)}>
