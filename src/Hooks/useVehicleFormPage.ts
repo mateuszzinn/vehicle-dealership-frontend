@@ -26,7 +26,7 @@ export const useVehicleFormPage = () => {
     values: {
       brand: vehicleQuery.data?.brand ?? '',
       model: vehicleQuery.data?.model ?? '',
-      fuelType: vehicleQuery.data?.fuelType ?? 'GASOLINA',
+      fuelType: vehicleQuery.data?.fuelType ?? 'GASOLINE',
       color: vehicleQuery.data?.color ?? '',
       year: vehicleQuery.data?.year,
       chassis: vehicleQuery.data?.chassis ?? '',

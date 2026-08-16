@@ -83,7 +83,7 @@ export const vehiclesService = {
     return all.filter((vehicle) => vehicle.dealerId === dealerId)
   },
   async getById(id: number) {
-    const response = await apiRequest<VehicleApiResponse | { data: VehicleApiResponse }>(`/hehicles/${id}`)
+    const response = await apiRequest<VehicleApiResponse | { data: VehicleApiResponse }>(`/vehicles/${id}`)
     return toVehicle('data' in response ? response.data : response)
   },
   async create(payload: VehiclePayload) {
@@ -94,7 +94,7 @@ export const vehiclesService = {
     return 'data' in response ? response.data : response
   },
   async update(id: number, payload: VehiclePayload) {
-    const response = await apiRequest<Vehicle | { data: Vehicle }>(`/vehicles${id}`, {
+    const response = await apiRequest<Vehicle | { data: Vehicle }>(`/vehicles/${id}`, {
       method: 'PUT',
       body: JSON.stringify(payload),
     })
