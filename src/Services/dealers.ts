@@ -1,5 +1,5 @@
 import { apiRequest, normalizeListResponse } from './apiClient'
-import type { Dealer, DealerPayload } from '../Utils/domain'
+import type { Dealer, DealerCreatePayload, DealerUpdatePayload } from '../Utils/domain'
 
 interface DealerApiResponse {
   id: number
@@ -12,10 +12,15 @@ interface DealerApiResponse {
   state?: string
 }
 
-interface DealerApiRequest {
+interface DealerCreateApiRequest {
   corporateName: string
   cnpj: string
   cep: string
+}
+
+interface DealerUpdateApiRequest {
+  corporateName: string
+  cnpj: string
 }
 
 const toDealer = (dealer: DealerApiResponse): Dealer => ({
@@ -29,10 +34,15 @@ const toDealer = (dealer: DealerApiResponse): Dealer => ({
   state: dealer.state,
 })
 
-const toDealerRequest = (payload: DealerPayload): DealerApiRequest => ({
+const toDealerCreateRequest = (payload: DealerCreatePayload): DealerCreateApiRequest => ({
   corporateName: payload.businessName,
   cnpj: payload.cnpj,
   cep: payload.zipCode,
+})
+
+const toDealerUpdateRequest = (payload: DealerUpdatePayload): DealerUpdateApiRequest => ({
+  corporateName: payload.businessName,
+  cnpj: payload.cnpj,
 })
 
 export const dealersService = {
@@ -45,18 +55,18 @@ export const dealersService = {
     const dealer = 'data' in response ? response.data : response
     return toDealer(dealer)
   },
-  async create(payload: DealerPayload) {
+  async create(payload: DealerCreatePayload) {
     const response = await apiRequest<DealerApiResponse | { data: DealerApiResponse }>('/dealer', {
       method: 'POST',
-      body: JSON.stringify(toDealerRequest(payload)),
+      body: JSON.stringify(toDealerCreateRequest(payload)),
     })
     const dealer = 'data' in response ? response.data : response
     return toDealer(dealer)
   },
-  async update(id: number, payload: DealerPayload) {
+  async update(id: number, payload: DealerUpdatePayload) {
     const response = await apiRequest<DealerApiResponse | { data: DealerApiResponse }>(`/dealer/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(toDealerRequest(payload)),
+      body: JSON.stringify(toDealerUpdateRequest(payload)),
     })
     const dealer = 'data' in response ? response.data : response
     return toDealer(dealer)

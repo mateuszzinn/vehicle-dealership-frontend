@@ -47,8 +47,10 @@ export const useVehicleFormPage = () => {
         enqueueSnackbar('Veiculo cadastrado com sucesso', { variant: 'success' })
       }
       navigate('/vehicles')
-    } catch {
-      enqueueSnackbar('Nao foi possivel salvar o veiculo', { variant: 'error' })
+    } catch (error) {
+      enqueueSnackbar(error instanceof Error ? error.message : 'Nao foi possivel salvar o veiculo', {
+        variant: 'error',
+      })
     }
   })
 
